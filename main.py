@@ -25,7 +25,7 @@ class CartPoleQAgent():
     def update_q(self, state, action, reward, new_state,n):
         self.Q_table[new_state][action] = self.Q_table[state][action] + 1/n * (reward - self.Q_table[state][action])
 
-    def SARSA_update_q(self, state, action, reward, new_state, n, new_action):
+    def SARSA_update_q(self, state, action, reward, new_state,  new_action):
         self.Q_table[state][action] = self.Q_table[state][action] + self.lr * (reward + self.discount * self.Q_table[new_state][new_action] - self.Q_table[state][action])
 
         # Write your code here
@@ -100,5 +100,5 @@ class CartPoleQAgent():
 
 
 agent = CartPoleQAgent()
-agent.train()
+agent.SARSA_train()
 agent.run()
