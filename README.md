@@ -1,1 +1,1 @@
-# CartPole_ReinforcmentLearning
+# CartPole_ReinforcementLearning
