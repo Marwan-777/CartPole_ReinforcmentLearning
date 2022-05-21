@@ -46,10 +46,8 @@ class CartPoleQAgent():
             discretized.append(new_obs)
         return tuple(discretized)
 
-    def train(self):
-        action = 0
-        new_state = 0
-        new_action = 0
+    def q_train(self):
+        new_state=0
         for e in range(self.num_episodes):
             current_state = self.discretize_state(self.env.reset())
             self.lr = self.get_lr(e)
@@ -60,13 +58,29 @@ class CartPoleQAgent():
             action = self.choose_action(current_state)
             while not done:
                 obs, reward, done, _ = self.env.step(action)
-
                 new_state = self.discretize_state(obs)
                 n+=1
+                r+=reward
+                action = self.choose_action(new_state)
+
+            self.update_q(current_state, action, r, new_state,n)
+
+        print('Finished training!')
+
+    def SARSA_train(self):
+
+        for e in range(self.num_episodes):
+            current_state = self.discretize_state(self.env.reset())
+            self.lr = self.get_lr(e)
+            self.explore_rate = self.get_explore_rate(e)
+            done = False
+            action = self.choose_action(current_state)
+
+            while not done:
+                obs, reward, done, _ = self.env.step(action)
+                new_state = self.discretize_state(obs)
                 new_action = self.choose_action(new_state)
-
-                self.SARSA_update_q(current_state, action, reward, new_state, self.lr,new_action)
-
+                self.SARSA_update_q(current_state, action, reward, new_state,new_action)
                 action = new_action
                 current_state=new_state
 
